@@ -40,25 +40,10 @@ namespace Game1
         private const int WINDOW_WIDTH = MAP_CELL_COLUMN_COUNT * CELL_WIDTH;
         private const int WINDOW_HEIGHT = MAP_CELL_ROW_COUNT * CELL_HEIGHT;
 
-        private const int WINNING_SCORE = 5;
+        GameAction playerKeyPress;
 
-        private const double TIME_LIMIT = 500;
-
-        // create a random number set
-        private Random randomNumbers = new Random();
-
-        // declare instance variables for the background
-        private Texture2D _background;
-        private Rectangle _backgroundPosition;
-
-        //declare a variable to store the players score
-        private int score;
-
-        private double timer = TIME_LIMIT;
-
-        // declare a MouseState object to get mouse information
-        private MouseState _mouseOldState;
-        private MouseState _mouseNewState;
+        KeyboardState newState;
+        KeyboardState oldState;
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -86,7 +71,7 @@ namespace Game1
             // TODO: Add your initialization logic here
 
             // set the background's initial position
-            _backgroundPosition = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+            //_backgroundPosition = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
             druid = new Druid(Content, "Druid", 32, new Vector2(50, 400));
             druid.Active = true;
@@ -124,20 +109,29 @@ namespace Game1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
             // TODO: Add your update logic here
 
-            if ((score != WINNING_SCORE) && (timer > 0))
-            {
-                //HandleKeyboardEvents();
-                //UpdateTimer();
-
                 base.Update(gameTime);
+            
+        }
+
+        private GameAction GetKeyboardEvents()
+        {
+            GameAction playerKeyPress = GameAction.None;
+
+            if (KeyCheck(Keys.Right) == true)
+            {
+
             }
 
-            
+            oldState = newState;
+
+            return playerGameAction;
+        }
+
+        private bool KeyCheck(Keys pressedKey)
+        {
+            return newState.IsKeyDown(pressedKey);
         }
 
         //private void HandleKeyboardEvents()
