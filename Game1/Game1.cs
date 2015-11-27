@@ -131,7 +131,7 @@ namespace Game1
 
             if ((score != WINNING_SCORE) && (timer > 0))
             {
-                HandleKeyboardEvents();
+                //HandleKeyboardEvents();
                 //UpdateTimer();
 
                 base.Update(gameTime);
@@ -140,35 +140,36 @@ namespace Game1
             
         }
 
-        private void HandleKeyboardEvents()
-        {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                // demonstrate the use of a Window's message box to display information
-                MessageBox(new IntPtr(0), "Escape key pressed Click OK to exit.", "Debug Message", 0);
-                Exit();
-            }
+        //private void HandleKeyboardEvents()
+        //{
+        //    if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+        //    {
+        //        // demonstrate the use of a Window's message box to display information
+        //        MessageBox(new IntPtr(0), "Escape key pressed Click OK to exit.", "Debug Message", 0);
+        //        Exit();
+        //    }
 
-            KeyboardState keyboardState = Keyboard.GetState();
+        //    KeyboardState keyboardState = Keyboard.GetState();
 
-            if ((keyboardState.IsKeyDown(Keys.Up)))
-            {
-                druid.Position = druid.Position + (new Vector2(0, -1));
-            }
-            else if ((keyboardState.IsKeyDown(Keys.Down)))
-            {
-                druid.Position = druid.Position + (new Vector2(0, +1));
-            }
+        //    if ((keyboardState.IsKeyDown(Keys.Up)))
+        //    {
+        //        druid.Position = druid.Position + (new Vector2(0, -1));
+        //    }
+        //    else if ((keyboardState.IsKeyDown(Keys.Down)))
+        //    {
+        //        druid.Position = druid.Position + (new Vector2(0, +1));
+        //    }
 
-            if ((keyboardState.IsKeyDown(Keys.Left)))
-            {
-                druid.Position = druid.Position + (new Vector2(-1, 0));
-            }
-            else if ((keyboardState.IsKeyDown(Keys.Right)))
-            {
-                druid.Position = druid.Position + (new Vector2(+1, 0));
-            }
-        }
+        //    if ((keyboardState.IsKeyDown(Keys.Left)))
+        //    {
+        //        druid.Position = druid.Position + (new Vector2(-1, 0));
+
+        //    }
+        //    else if ((keyboardState.IsKeyDown(Keys.Right)))
+        //    {
+        //        druid.Position = druid.Position + (new Vector2(+1, 0));
+        //    }
+        //}
 
         /// <summary>
         /// This is called when the game should draw itself.

@@ -134,16 +134,16 @@ namespace Game1
         /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            // only draw the ball if it is active
+            // only draw the  if it is active
             if (_active)
             {
-                if (_DirectionOfTravel == Direction.Left)
+                if (_DirectionOfTravel == Direction.Right)
                 {
-                    spriteBatch.Draw(_spriteLeft, _position, Color.White);
+                    spriteBatch.Draw(_spriteRight, _position, Color.White);
                 }
                 else
                 {
-                    spriteBatch.Draw(_spriteRight, _position, Color.White);
+                    spriteBatch.Draw(_spriteLeft, _position, Color.White);
                 }
             }
         }
