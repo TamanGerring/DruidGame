@@ -110,8 +110,31 @@ namespace Game1
         protected override void Update(GameTime gameTime)
         {
             // TODO: Add your update logic here
+            playerKeyPress = GetKeyboardEvents();
 
-                base.Update(gameTime);
+            switch (playerKeyPress)
+            {
+                case GameAction.None:
+                    break;
+                case GameAction.Quit:
+                    Exit();
+                    break;
+                case GameAction.PlayerRight:
+                    druid.DruidDirection = Druid.Direction.Right;
+                    break;
+                case GameAction.PlayerLeft:
+                    druid.DruidDirection = Druid.Direction.Left;
+                    break;
+                case GameAction.PlayerUp:
+                    break;
+                case GameAction.PlayerDown:
+                    break;
+                default:
+                    break;
+            }
+
+
+            base.Update(gameTime);
             
         }
 
@@ -126,7 +149,7 @@ namespace Game1
 
             oldState = newState;
 
-            return playerGameAction;
+            return playerKeyPress;
         }
 
         private bool KeyCheck(Keys pressedKey)

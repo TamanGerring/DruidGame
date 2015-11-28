@@ -38,7 +38,7 @@ namespace Game1
         private bool _active;
         private Direction _DirectionOfTravel;
 
-        public Direction PlayerDirection
+        public Direction DruidDirection
         {
             get { return _DirectionOfTravel; }
             set { _DirectionOfTravel = value; }
@@ -122,7 +122,7 @@ namespace Game1
             // load the ball image into the Texture2D for the ball sprite
             _spriteLeft = _contentManager.Load<Texture2D>("druid_left");
             _spriteRight = _contentManager.Load<Texture2D>("druid_right");
-            //_sprite = _contentManager.Load<Texture2D>(_spriteName);
+            _sprite = _contentManager.Load<Texture2D>(_spriteName);
         }
 
         #endregion
@@ -141,10 +141,11 @@ namespace Game1
                 {
                     spriteBatch.Draw(_spriteRight, _position, Color.White);
                 }
-                else
+                else if (true)
                 {
                     spriteBatch.Draw(_spriteLeft, _position, Color.White);
                 }
+
             }
         }
 
