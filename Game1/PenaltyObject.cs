@@ -23,10 +23,10 @@ namespace Game1
         private Vector2 _center;
 
         public PenaltyObject(
-    ContentManager contentManager,
-    string spriteName,
-    int radius,
-    Vector2 position
+            ContentManager contentManager,
+            string spriteName,
+            int radius,
+            Vector2 position
     )
         {
             _contentManager = contentManager;

@@ -128,12 +128,12 @@ namespace Game1
 
         #region METHODS
         /// <summary>
-        /// add ball sprite to the SpriteBatch object
+        /// add sprite to the SpriteBatch object
         /// </summary>
         /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            // only draw the  if it is active
+            // only draw the if sprite is active
             if (_active)
             {
                 if (_DirectionOfTravel == Direction.Right)
@@ -143,6 +143,14 @@ namespace Game1
                 else if (_DirectionOfTravel == Direction.Left)
                 {
                     spriteBatch.Draw(_spriteLeft, _position, Color.White);
+                }
+                else if (_DirectionOfTravel == Direction.Up)
+                {
+                    spriteBatch.Draw(_spriteLeft, _position, Color.White);
+                }
+                else if (_DirectionOfTravel == Direction.Down)
+                {
+                    spriteBatch.Draw(_spriteRight, _position, Color.White);
                 }
 
             }
