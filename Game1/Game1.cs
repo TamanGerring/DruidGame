@@ -49,6 +49,8 @@ namespace Game1
         private SpriteBatch spriteBatch;
 
         private Druid druid;
+        private PenaltyObject penalty;
+        private PointObject point;
 
         public Game1()
         {
@@ -73,8 +75,12 @@ namespace Game1
             // set the background's initial position
             //_backgroundPosition = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-            druid = new Druid(Content, "Druid", 32, new Vector2(50, 400));
+            Random rand = new Random();
+
+            druid = new Druid(Content, "druid_right", 32, new Vector2(50, 400));
             druid.Active = true;
+
+            penalty = new PenaltyObject(Content, "point_object", 13, new Vector2(rand.Next(800), rand.Next(800)));
 
             IsMouseVisible = true;
 
