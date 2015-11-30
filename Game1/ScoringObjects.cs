@@ -5,12 +5,14 @@ using System.Text;
 
 namespace Game1
 {
-    class ScoringObjects
+    public class ScoringObjects
     {
         /* Things we need
+
         --Position
         --Placement Method
         --Removal Method
+
         */
     }
 }

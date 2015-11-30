@@ -106,9 +106,7 @@ namespace Game1
         /// <param name="contentManager">game content manager object</param>
         /// <param name="spriteName">file name of sprite</param>
         /// <param name="position">vector position of druid</param>
-        public Druid(
-            ContentManager contentManager,
-            string spriteName,
+        public Druid(ContentManager contentManager, string spriteName,
             int radius,
             Vector2 position
             )
@@ -120,9 +118,10 @@ namespace Game1
             _center = position + new Vector2(radius, radius);
 
             // load the ball image into the Texture2D for the ball sprite
+            _sprite = _contentManager.Load<Texture2D>(_spriteName);
             _spriteLeft = _contentManager.Load<Texture2D>("druid_left");
             _spriteRight = _contentManager.Load<Texture2D>("druid_right");
-            _sprite = _contentManager.Load<Texture2D>(_spriteName);
+            
         }
 
         #endregion
@@ -141,7 +140,7 @@ namespace Game1
                 {
                     spriteBatch.Draw(_spriteRight, _position, Color.White);
                 }
-                else if (true)
+                else if (_DirectionOfTravel == Direction.Left)
                 {
                     spriteBatch.Draw(_spriteLeft, _position, Color.White);
                 }

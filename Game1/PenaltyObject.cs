@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Game1
 {
-    class PenaltyObject
+    public class PenaltyObject : ScoringObjects
     {
         /* Things we need
         --Position (derived)

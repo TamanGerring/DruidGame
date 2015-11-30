@@ -58,6 +58,8 @@
   <ItemGroup>
     <Content Include="Content\druid_left.png" />
     <Content Include="Content\druid_right.png" />
+    <Content Include="Content\penalty_object.png" />
+    <Content Include="Content\point_object.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>

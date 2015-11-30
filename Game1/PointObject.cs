@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Game1
 {
-    class PointObject
+    public class PointObject : ScoringObjects
     {
         /* Things we need
         --Position (derived)
