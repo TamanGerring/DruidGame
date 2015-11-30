@@ -161,19 +161,19 @@ namespace Game1
 
             newState = Keyboard.GetState();
 
-            if (KeyCheck(Keys.Right) == true)
+            if (KeyCheck(Keys.Right) == true && offScreenCheck("RIGHT") == true)
             {
                 playerKeyPress = GameAction.PlayerRight;
             }
-            else if (KeyCheck(Keys.Left) == true)
+            else if (KeyCheck(Keys.Left) == true && offScreenCheck("LEFT") == true)
             {
                 playerKeyPress = GameAction.PlayerLeft;
             }
-            else if (KeyCheck(Keys.Up) == true)
+            else if (KeyCheck(Keys.Up) == true && offScreenCheck("UP") == true)
             {
                 playerKeyPress = GameAction.PlayerUp;
             }
-            else if (KeyCheck(Keys.Down) == true)
+            else if (KeyCheck(Keys.Down) == true && offScreenCheck("DOWN") == true)
             {
                 playerKeyPress = GameAction.PlayerDown;
             }
@@ -246,22 +246,22 @@ namespace Game1
 
 
 
-        //private bool offScreenCheck(string direction)
-        //{
-        //    if (direction == "UP")
-        //        if (druid.Center.Y - druid.Radius > 0) // If top of druid is below top of window, return true
-        //            return true;
-        //    if (direction == "DOWN")
-        //        if (druid.Center.Y + druid.Radius < WINDOW_HEIGHT) //If bottom of druid is above the bottom of window, return true
-        //            return true;
-        //    if (direction == "LEFT")
-        //        if (druid.Center.X - druid.Radius > 0) //If left of druid is to the right of the left of window, return true
-        //            return true;
-        //    if (direction == "RIGHT")
-        //        if (druid.Center.X + druid.Radius < WINDOW_WIDTH) //If right of druid is to the left of the right of window, return true
-        //            return true;
+        private bool offScreenCheck(string direction)
+        {
+            if (direction == "UP")
+                if (druid.Center.Y - druid.Radius > 0) // If top of druid is below top of window, return true
+                    return true;
+            if (direction == "DOWN")
+                if (druid.Center.Y + druid.Radius < WINDOW_HEIGHT) //If bottom of druid is above the bottom of window, return true
+                    return true;
+            if (direction == "LEFT")
+                if (druid.Center.X - druid.Radius > 0) //If left of druid is to the right of the left of window, return true
+                    return true;
+            if (direction == "RIGHT")
+                if (druid.Center.X + druid.Radius < WINDOW_WIDTH) //If right of druid is to the left of the right of window, return true
+                    return true;
 
-        //    return false;
-        //}
+            return false;
+        }
     }
 }
