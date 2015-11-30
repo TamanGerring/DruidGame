@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Game1
 {
-    class ScoringObjects
+    class PenaltyObject
     {
         /* Things we need
-        --Position
-        --Placement Method
-        --Removal Method
+        --Position (derived)
+        --Value
+        --Sprite
         */
     }
 }
