@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Druid.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="PenaltyObject.cs" />
     <Compile Include="PointObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
