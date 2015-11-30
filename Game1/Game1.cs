@@ -75,16 +75,15 @@ namespace Game1
             // set the background's initial position
             //_backgroundPosition = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-            druid = new Druid(Content, "druid_right", 32, new Vector2(50, 400));
             Random rand = new Random();
 
             druid = new Druid(Content, "druid_right", 32, new Vector2(50, 400));
             druid.Active = true;
 
-            penalty = new PenaltyObject(Content, "penalty_object", 13, new Vector2(rand.Next(200), rand.Next(200)));
+            penalty = new PenaltyObject(Content, "penalty_object", 13, new Vector2(rand.Next(0, WINDOW_WIDTH - 13), rand.Next(0, WINDOW_HEIGHT - 13)));
             penalty.Active = true;
 
-            point = new PointObject(Content, "point_object", 13, new Vector2(rand.Next(200), rand.Next(200)));
+            point = new PointObject(Content, "point_object", 13, new Vector2(rand.Next(0, WINDOW_WIDTH - 13), rand.Next(0, WINDOW_HEIGHT - 13)));
             point.Active = true;
             
 
@@ -162,19 +161,19 @@ namespace Game1
 
             newState = Keyboard.GetState();
 
-            if (KeyCheck(Keys.Right) == true)
+            if (KeyCheck(Keys.Right) == true && offScreenCheck("RIGHT") == true)
             {
                 playerKeyPress = GameAction.PlayerRight;
             }
-            else if (KeyCheck(Keys.Left) == true)
+            else if (KeyCheck(Keys.Left) == true && offScreenCheck("LEFT") == true)
             {
                 playerKeyPress = GameAction.PlayerLeft;
             }
-            else if (KeyCheck(Keys.Up) == true)
+            else if (KeyCheck(Keys.Up) == true && offScreenCheck("UP") == true)
             {
                 playerKeyPress = GameAction.PlayerUp;
             }
-            else if (KeyCheck(Keys.Down) == true)
+            else if (KeyCheck(Keys.Down) == true && offScreenCheck("DOWN") == true)
             {
                 playerKeyPress = GameAction.PlayerDown;
             }
@@ -237,6 +236,8 @@ namespace Game1
             spriteBatch.Begin();
 
             druid.Draw(spriteBatch);
+            point.Draw(spriteBatch);
+            penalty.Draw(spriteBatch);
 
             spriteBatch.End();
 
