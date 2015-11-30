@@ -21,6 +21,7 @@ namespace Game1
         private int _radius;
         private Vector2 _position;
         private Vector2 _center;
+        private bool _active;
 
         public PenaltyObject(
     ContentManager contentManager,

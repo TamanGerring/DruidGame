@@ -24,6 +24,14 @@ namespace Game1
         private string _spriteName;
         private Vector2 _position;
         private Vector2 _center;
+        private bool _active;
+
+        public bool Active
+        {
+            get { return _active; }
+            set { _active = value; }
+        }
+
 
         public ContentManager ContentManager
         {
@@ -42,7 +50,6 @@ namespace Game1
             get { return _spriteName; }
             set { _spriteName = value; }
         }
-
 
         public int Radius
         {
@@ -65,6 +72,15 @@ namespace Game1
         {
             get { return _center; }
             set { _center = value; }
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            // only draw the  if it is active
+            if (_active)
+            {
+                spriteBatch.Draw(_sprite, _position, Color.White);
+            }
         }
     }
 }
