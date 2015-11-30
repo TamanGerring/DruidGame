@@ -81,7 +81,7 @@ namespace Game1
             druid = new Druid(Content, "druid_right", 32, new Vector2(50, 400));
             druid.Active = true;
 
-            penalty = new PenaltyObject(Content, "penalty_object", 13, new Vector2(50, 50));
+            penalty = new PenaltyObject(Content, "penalty_object", 13, new Vector2(rand.Next(200), rand.Next(200)));
             penalty.Active = true;
 
             point = new PointObject(Content, "point_object", 13, new Vector2(rand.Next(200), rand.Next(200)));
@@ -230,7 +230,7 @@ namespace Game1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.LemonChiffon);
+            GraphicsDevice.Clear(Color.Crimson);
 
             // TODO: Add your drawing code here
 
