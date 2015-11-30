@@ -143,8 +143,9 @@ namespace Game1
                     druid.DruidDirection = Druid.Direction.Up;
                     druid.Position = new Vector2(druid.Position.X, druid.Position.Y - 1);
                     break;
+                case GameAction.PlayerDown:
                     druid.DruidDirection = Druid.Direction.Down;
-                    druid.Position = new Vector2(druid.Position.X + 1, druid.Position.Y + 1);
+                    druid.Position = new Vector2(druid.Position.X, druid.Position.Y + 1);
                     break;
                 default:
                     break;
@@ -161,19 +162,19 @@ namespace Game1
 
             newState = Keyboard.GetState();
 
-            if (KeyCheck(Keys.Right) == true && offScreenCheck("RIGHT") == true)
+            if (KeyCheck(Keys.Right) == true)
             {
                 playerKeyPress = GameAction.PlayerRight;
             }
-            else if (KeyCheck(Keys.Left) == true && offScreenCheck("LEFT") == true)
+            else if (KeyCheck(Keys.Left) == true)
             {
                 playerKeyPress = GameAction.PlayerLeft;
             }
-            else if (KeyCheck(Keys.Up) == true && offScreenCheck("UP") == true)
+            else if (KeyCheck(Keys.Up) == true)
             {
                 playerKeyPress = GameAction.PlayerUp;
             }
-            else if (KeyCheck(Keys.Down) == true && offScreenCheck("DOWN") == true)
+            else if (KeyCheck(Keys.Down) == true)
             {
                 playerKeyPress = GameAction.PlayerDown;
             }
@@ -241,10 +242,6 @@ namespace Game1
 
             base.Draw(gameTime);
         }
-
-
-
-
 
         private bool offScreenCheck(string direction)
         {
