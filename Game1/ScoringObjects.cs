@@ -21,6 +21,7 @@ namespace Game1
         private ContentManager _contentManager;
         private Texture2D _sprite;
         private int _radius;
+        private string _spriteName;
         private Vector2 _position;
         private Vector2 _center;
 
@@ -35,6 +36,13 @@ namespace Game1
             get { return _sprite; }
             set { _sprite = value; }
         }
+
+        public string SpriteName
+        {
+            get { return _spriteName; }
+            set { _spriteName = value; }
+        }
+
 
         public int Radius
         {

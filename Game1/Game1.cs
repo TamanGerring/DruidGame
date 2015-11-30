@@ -49,6 +49,8 @@ namespace Game1
         private SpriteBatch spriteBatch;
 
         private Druid druid;
+        private PenaltyObject penalty;
+        private PointObject point;
 
         public Game1()
         {
@@ -73,8 +75,12 @@ namespace Game1
             // set the background's initial position
             //_backgroundPosition = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
+            Random rand = new Random();
+
             druid = new Druid(Content, "druid_right", 32, new Vector2(50, 400));
             druid.Active = true;
+
+            penalty = new PenaltyObject(Content, "point_object", 13, new Vector2(rand.Next(800), rand.Next(800)));
 
             IsMouseVisible = true;
 
@@ -121,18 +127,13 @@ namespace Game1
                     break;
                 case GameAction.PlayerRight:
                     druid.DruidDirection = Druid.Direction.Right;
-                    druid.Position = new Vector2(druid.Position.X + 1, druid.Position.Y);
                     break;
                 case GameAction.PlayerLeft:
                     druid.DruidDirection = Druid.Direction.Left;
-                    druid.Position = new Vector2(druid.Position.X - 1, druid.Position.Y);
                     break;
                 case GameAction.PlayerUp:
-                    druid.DruidDirection = Druid.Direction.Up;
-                    druid.Position = new Vector2(druid.Position.X, druid.Position.Y - 1);
                     break;
-                    druid.DruidDirection = Druid.Direction.Down;
-                    druid.Position = new Vector2(druid.Position.X + 1, druid.Position.Y + 1);
+                case GameAction.PlayerDown:
                     break;
                 default:
                     break;
@@ -147,23 +148,9 @@ namespace Game1
         {
             GameAction playerKeyPress = GameAction.None;
 
-            newState = Keyboard.GetState();
-
             if (KeyCheck(Keys.Right) == true)
             {
-                playerKeyPress = GameAction.PlayerRight;
-            }
-            else if (KeyCheck(Keys.Left) == true)
-            {
-                playerKeyPress = GameAction.PlayerLeft;
-            }
-            else if (KeyCheck(Keys.Up) == true)
-            {
-                playerKeyPress = GameAction.PlayerUp;
-            }
-            else if (KeyCheck(Keys.Down) == true)
-            {
-                playerKeyPress = GameAction.PlayerDown;
+
             }
 
             oldState = newState;
@@ -173,11 +160,7 @@ namespace Game1
 
         private bool KeyCheck(Keys pressedKey)
         {
-            //allows key to be held down
             return newState.IsKeyDown(pressedKey);
-
-            //must continue to tap the key
-            //return oldState.IsKeyDown(pressedKey) && newState.IsKeyUp(presssedKey);
         }
 
         //private void HandleKeyboardEvents()

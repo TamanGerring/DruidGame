@@ -15,9 +15,9 @@ namespace Game1
         --Value
         --Sprite
         */
-
         private ContentManager _contentManager;
         private Texture2D _sprite;
+        private string _spriteName;
         private int _radius;
         private Vector2 _position;
         private Vector2 _center;
