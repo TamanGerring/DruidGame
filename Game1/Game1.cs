@@ -127,6 +127,8 @@ namespace Game1
 
                 GetPlayerAction(playerKeyPress);
 
+                UpdateTimer(gameTime);
+
                 base.Update(gameTime);
             }
             else if (score == SCORE_TO_WIN)
