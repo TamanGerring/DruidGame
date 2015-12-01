@@ -22,10 +22,6 @@ namespace Game1
     /// </summary>
     public class Game1 : Game
     {
-
-        //This is a test of the NMC Alert system. Please be advised NMC will explode momentarily... 
-        //This is test number 2...
-
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern uint MessageBox(IntPtr hWnd, String text, String caption, uint type);
 
@@ -39,6 +35,22 @@ namespace Game1
         // set the window size
         private const int WINDOW_WIDTH = MAP_CELL_COLUMN_COUNT * CELL_WIDTH;
         private const int WINDOW_HEIGHT = MAP_CELL_ROW_COUNT * CELL_HEIGHT;
+
+        private const int SCORE_X_POSITION = 500;
+        private const int SCORE_Y_POSITION = 20;
+
+        private const int SCORE_TO_WIN = 10;
+
+        private const double TIME_LIMIT = 100;
+        
+        // variable for score
+        private int score;
+
+        //variable for timer
+        private double timer = TIME_LIMIT;
+
+        // SpriteFont for on-screen score
+        private SpriteFont scoreFont;
 
         GameAction playerKeyPress;
 
@@ -61,13 +73,7 @@ namespace Game1
             
             Content.RootDirectory = "Content";
         }
-
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
+        
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
@@ -92,37 +98,50 @@ namespace Game1
             base.Initialize();
         }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
+        
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            scoreFont = Content.Load<SpriteFont>("ScoreFont");
+
             // TODO: use this.Content to load your game content here
         }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// game-specific content.
-        /// </summary>
+        
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
         }
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+      
         protected override void Update(GameTime gameTime)
         {
             // TODO: Add your update logic here
-            playerKeyPress = GetKeyboardEvents();
+            
 
+            if ((score != SCORE_TO_WIN) && (timer > 0))
+            {
+                playerKeyPress = GetKeyboardEvents();
+
+                GetPlayerAction(playerKeyPress);
+
+                base.Update(gameTime);
+            }
+            else if (score == SCORE_TO_WIN)
+            {
+                DisplayWinScreen();
+            }
+            else if (timer <= 0)
+            {
+                DisplayTimeOutMessage();
+            }
+            
+        }
+
+        private void GetPlayerAction(GameAction playerKeyPress)
+        {
             switch (playerKeyPress)
             {
                 case GameAction.None:
@@ -132,27 +151,23 @@ namespace Game1
                     break;
                 case GameAction.PlayerRight:
                     druid.DruidDirection = Druid.Direction.Right;
-                    druid.Position = new Vector2(druid.Position.X + 1, druid.Position.Y);
+                    druid.Position = new Vector2(druid.Position.X + 2, druid.Position.Y);
                     break;
                 case GameAction.PlayerLeft:
                     druid.DruidDirection = Druid.Direction.Left;
-                    druid.Position = new Vector2(druid.Position.X - 1, druid.Position.Y);
+                    druid.Position = new Vector2(druid.Position.X - 2, druid.Position.Y);
                     break;
                 case GameAction.PlayerUp:
                     druid.DruidDirection = Druid.Direction.Up;
-                    druid.Position = new Vector2(druid.Position.X, druid.Position.Y - 1);
+                    druid.Position = new Vector2(druid.Position.X, druid.Position.Y - 2);
                     break;
                 case GameAction.PlayerDown:
                     druid.DruidDirection = Druid.Direction.Down;
-                    druid.Position = new Vector2(druid.Position.X, druid.Position.Y + 1);
+                    druid.Position = new Vector2(druid.Position.X, druid.Position.Y + 2);
                     break;
                 default:
                     break;
             }
-
-
-            base.Update(gameTime);
-            
         }
 
         private GameAction GetKeyboardEvents()
@@ -176,6 +191,10 @@ namespace Game1
             else if (KeyCheck(Keys.Down) == true && offScreenCheck("DOWN") == true)
             {
                 playerKeyPress = GameAction.PlayerDown;
+            }
+            else if (KeyCheck(Keys.Escape))
+            {
+                playerKeyPress = GameAction.Quit;
             }
 
             oldState = newState;
@@ -222,11 +241,7 @@ namespace Game1
         //        druid.Position = druid.Position + (new Vector2(+1, 0));
         //    }
         //}
-
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Crimson);
@@ -238,6 +253,8 @@ namespace Game1
             druid.Draw(spriteBatch);
             point.Draw(spriteBatch);
             penalty.Draw(spriteBatch);
+
+            DrawScoreTimer();
 
             spriteBatch.End();
 
@@ -260,6 +277,29 @@ namespace Game1
                     return true;
 
             return false;
+        }
+
+        private void DisplayWinScreen()
+        {
+            MessageBox(new IntPtr(0), "You have won the game! \n Press any button to exit.", "You Win.", 0);
+            Exit();
+        }
+
+        private void DisplayTimeOutMessage()
+        {
+            MessageBox(new IntPtr(0), "Sorry, you ran out of time.\n Press any key to exit.", "Wah Wah", 0);
+            Exit();
+        }
+
+        private void UpdateTimer(GameTime gameTime)
+        {
+            timer -= gameTime.ElapsedGameTime.TotalSeconds;
+        }
+
+        private void DrawScoreTimer()
+        {
+            spriteBatch.DrawString(scoreFont, "Score: " + score, new Vector2(SCORE_X_POSITION, SCORE_Y_POSITION), Color.Black);
+            spriteBatch.DrawString(scoreFont, "Time: " + timer.ToString("000"), new Vector2(SCORE_X_POSITION, SCORE_Y_POSITION + 25), Color.Black);
         }
     }
 }
