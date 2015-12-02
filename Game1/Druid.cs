@@ -32,11 +32,16 @@ namespace Game1
         private Texture2D _sprite;
         private Texture2D _spriteLeft;
         private Texture2D _spriteRight;
-        private int _radius;
+        //private int _radius;
         private Vector2 _position;
         private Vector2 _center;
         private bool _active;
         private Direction _DirectionOfTravel;
+        private int _spriteWidth;
+        private int _spriteHeight;
+        private Rectangle _boundingRectangle;
+        private int _speedHorizontal;
+        private int _speedVertical;
 
         public Direction DruidDirection
         {
@@ -67,11 +72,11 @@ namespace Game1
             set { _sprite = value; }
         }
 
-        public int Radius
-        {
-            get { return _radius; }
-            set { _radius = value; }
-        }
+        //public int Radius
+        //{
+        //    get { return _radius; }
+        //    set { _radius = value; }
+        //}
 
         public Vector2 Position
         {
@@ -79,9 +84,27 @@ namespace Game1
             set
             {
                 _position = value;
-                _center.X = _position.X + _radius;
-                _center.Y = _position.Y + _radius;
+                _center = new Vector2(_position.X + (_spriteWidth / 2), _position.Y + (_spriteHeight / 2));
+                _boundingRectangle = new Rectangle((int)_position.X, (int)_position.Y, _spriteWidth, _spriteHeight);
             }
+        }
+        
+        public int SpeedHorizontal
+        {
+            get { return _speedHorizontal; }
+            set { _speedHorizontal = value; }
+        }
+
+        public int SpeedVertical
+        {
+            get { return _speedVertical; }
+            set { _speedVertical = value; }
+        }
+
+        public Rectangle BoundingRectangle
+        {
+            get { return _boundingRectangle; }
+            set { _boundingRectangle = value; }
         }
 
         public Vector2 Center
@@ -106,21 +129,25 @@ namespace Game1
         /// <param name="contentManager">game content manager object</param>
         /// <param name="spriteName">file name of sprite</param>
         /// <param name="position">vector position of druid</param>
-        public Druid(ContentManager contentManager, string spriteName,
-            int radius,
-            Vector2 position
-            )
+        public Druid(ContentManager contentManager, string spriteName, Vector2 position)
         {
             _contentManager = contentManager;
             _spriteName = spriteName;
-            _radius = radius;
+            //_radius = radius;
             _position = position;
-            _center = position + new Vector2(radius, radius);
+            //_center = position + new Vector2(radius, radius);
 
             // load the ball image into the Texture2D for the ball sprite
             _sprite = _contentManager.Load<Texture2D>(_spriteName);
             _spriteLeft = _contentManager.Load<Texture2D>("druid_left");
             _spriteRight = _contentManager.Load<Texture2D>("druid_right");
+
+            _spriteWidth = _spriteLeft.Width;
+            _spriteHeight = _spriteLeft.Height;
+
+            // set the initial center and bounding rectangle for the player
+            _center = new Vector2(position.X + (_spriteWidth / 2), position.Y + (_spriteHeight / 2));
+            _boundingRectangle = new Rectangle((int)position.X, (int)position.Y, _spriteWidth, _spriteHeight);
             
         }
 
@@ -146,7 +173,7 @@ namespace Game1
                 }
                 else if (_DirectionOfTravel == Direction.Up)
                 {
-                    spriteBatch.Draw(_spriteLeft, _position, Color.White);
+                    spriteBatch.Draw(_spriteRight, _position, Color.White);
                 }
                 else if (_DirectionOfTravel == Direction.Down)
                 {

@@ -41,7 +41,7 @@ namespace Game1
 
         private const int SCORE_TO_WIN = 10;
 
-        private const double TIME_LIMIT = 100;
+        private const double TIME_LIMIT = 85;
         
         // variable for score
         private int score;
@@ -64,6 +64,8 @@ namespace Game1
         private PenaltyObject penalty;
         private PointObject point;
 
+        private Random rand = new Random();
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -80,16 +82,16 @@ namespace Game1
 
             // set the background's initial position
             //_backgroundPosition = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+            
+            score = 0;
 
-            Random rand = new Random();
-
-            druid = new Druid(Content, "druid_right", 32, new Vector2(50, 400));
+            druid = new Druid(Content, "druid_right", new Vector2(50, 400));
             druid.Active = true;
 
-            penalty = new PenaltyObject(Content, "penalty_object", 13, new Vector2(rand.Next(0, WINDOW_WIDTH - 13), rand.Next(0, WINDOW_HEIGHT - 13)));
-            penalty.Active = true;
+            penalty = new PenaltyObject(Content, "penalty_object", new Vector2(rand.Next(0, WINDOW_WIDTH - 13), rand.Next(0, WINDOW_HEIGHT - 13)));
+            //penalty.Active = true;
 
-            point = new PointObject(Content, "point_object", 13, new Vector2(rand.Next(0, WINDOW_WIDTH - 13), rand.Next(0, WINDOW_HEIGHT - 13)));
+            point = new PointObject(Content, "point_object", new Vector2(rand.Next(0, WINDOW_WIDTH - 13), rand.Next(0, WINDOW_HEIGHT - 13)));
             point.Active = true;
             
 
@@ -128,6 +130,10 @@ namespace Game1
                 GetPlayerAction(playerKeyPress);
 
                 UpdateTimer(gameTime);
+
+                ManageScore();
+
+                UpdatePenaltyLocation();
 
                 base.Update(gameTime);
             }
@@ -212,37 +218,6 @@ namespace Game1
             //must continue to tap the key
             //return oldState.IsKeyDown(pressedKey) && newState.IsKeyUp(presssedKey);
         }
-
-        //private void HandleKeyboardEvents()
-        //{
-        //    if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-        //    {
-        //        // demonstrate the use of a Window's message box to display information
-        //        MessageBox(new IntPtr(0), "Escape key pressed Click OK to exit.", "Debug Message", 0);
-        //        Exit();
-        //    }
-
-        //    KeyboardState keyboardState = Keyboard.GetState();
-
-        //    if ((keyboardState.IsKeyDown(Keys.Up)))
-        //    {
-        //        druid.Position = druid.Position + (new Vector2(0, -1));
-        //    }
-        //    else if ((keyboardState.IsKeyDown(Keys.Down)))
-        //    {
-        //        druid.Position = druid.Position + (new Vector2(0, +1));
-        //    }
-
-        //    if ((keyboardState.IsKeyDown(Keys.Left)))
-        //    {
-        //        druid.Position = druid.Position + (new Vector2(-1, 0));
-
-        //    }
-        //    else if ((keyboardState.IsKeyDown(Keys.Right)))
-        //    {
-        //        druid.Position = druid.Position + (new Vector2(+1, 0));
-        //    }
-        //}
         
         protected override void Draw(GameTime gameTime)
         {
@@ -266,30 +241,60 @@ namespace Game1
         private bool offScreenCheck(string direction)
         {
             if (direction == "UP")
-                if (druid.Center.Y - druid.Radius > 0) // If top of druid is below top of window, return true
+                if (druid.Position.Y > 0) // If top of druid is below top of window, return true
                     return true;
             if (direction == "DOWN")
-                if (druid.Center.Y + druid.Radius < WINDOW_HEIGHT) //If bottom of druid is above the bottom of window, return true
+                if (druid.Position.Y < WINDOW_HEIGHT - 64) //If bottom of druid is above the bottom of window, return true
                     return true;
             if (direction == "LEFT")
-                if (druid.Center.X - druid.Radius > 0) //If left of druid is to the right of the left of window, return true
+                if (druid.Position.X > 0) //If left of druid is to the right of the left of window, return true
                     return true;
             if (direction == "RIGHT")
-                if (druid.Center.X + druid.Radius < WINDOW_WIDTH) //If right of druid is to the left of the right of window, return true
+                if (druid.Position.X < WINDOW_WIDTH - 64) //If right of druid is to the left of the right of window, return true
                     return true;
 
             return false;
         }
 
+        private void ManageScore()
+        {
+            if (druid.BoundingRectangle.Intersects(point.BoundingRectangle))
+            {
+                score++;
+                SpawnPointObject();
+            }
+            else if (druid.BoundingRectangle.Intersects(penalty.BoundingRectangle))
+            {
+                score -= 2;
+                SpawnPenaltyObject();
+            }
+        }
+
+        private void SpawnPointObject()
+        {
+            int pointObjectXPosition = rand.Next(WINDOW_WIDTH - CELL_WIDTH);
+            int pointObjectYPosition = rand.Next(WINDOW_HEIGHT - CELL_HEIGHT);
+
+            point.Position = new Vector2(pointObjectXPosition, pointObjectYPosition);
+        }
+
+        private void SpawnPenaltyObject()
+        {
+            int penaltyObjectXPosition = rand.Next(WINDOW_WIDTH - CELL_WIDTH);
+            int penaltyObjectYPosition = rand.Next(WINDOW_HEIGHT - CELL_HEIGHT);
+
+            penalty.Position = new Vector2(penaltyObjectXPosition, penaltyObjectYPosition);
+        }
+        
         private void DisplayWinScreen()
         {
-            MessageBox(new IntPtr(0), "You have won the game! \n Press any button to exit.", "You Win.", 0);
+            MessageBox(new IntPtr(0), "You have won the game!\nPress Enter to exit.", "You Win.", 0);
             Exit();
         }
 
         private void DisplayTimeOutMessage()
         {
-            MessageBox(new IntPtr(0), "Sorry, you ran out of time.\n Press any key to exit.", "Wah Wah", 0);
+            MessageBox(new IntPtr(0), "Sorry, you ran out of time.\nPress Enter to exit.", "Wah Wah", 0);
             Exit();
         }
 
