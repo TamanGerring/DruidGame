@@ -15,11 +15,11 @@ namespace Game1
         PlayerUp,
         PlayerDown
     }
-
-
+    
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
+    
     public class Game1 : Game
     {
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
@@ -130,10 +130,9 @@ namespace Game1
                 GetPlayerAction(playerKeyPress);
 
                 UpdateTimer(gameTime);
+                UpdatePenaltyLocation(gameTime);
 
                 ManageScore();
-
-                UpdatePenaltyLocation();
 
                 base.Update(gameTime);
             }
@@ -184,19 +183,19 @@ namespace Game1
 
             newState = Keyboard.GetState();
 
-            if (KeyCheck(Keys.Right) == true && offScreenCheck("RIGHT") == true)
+            if (KeyCheck(Keys.Right) == true && ScreenBoundryCheck("RIGHT") == true)
             {
                 playerKeyPress = GameAction.PlayerRight;
             }
-            else if (KeyCheck(Keys.Left) == true && offScreenCheck("LEFT") == true)
+            else if (KeyCheck(Keys.Left) == true && ScreenBoundryCheck("LEFT") == true)
             {
                 playerKeyPress = GameAction.PlayerLeft;
             }
-            else if (KeyCheck(Keys.Up) == true && offScreenCheck("UP") == true)
+            else if (KeyCheck(Keys.Up) == true && ScreenBoundryCheck("UP") == true)
             {
                 playerKeyPress = GameAction.PlayerUp;
             }
-            else if (KeyCheck(Keys.Down) == true && offScreenCheck("DOWN") == true)
+            else if (KeyCheck(Keys.Down) == true && ScreenBoundryCheck("DOWN") == true)
             {
                 playerKeyPress = GameAction.PlayerDown;
             }
@@ -221,7 +220,7 @@ namespace Game1
         
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Crimson);
+            GraphicsDevice.Clear(Color.BlueViolet);
 
             // TODO: Add your drawing code here
 
@@ -238,7 +237,7 @@ namespace Game1
             base.Draw(gameTime);
         }
 
-        private bool offScreenCheck(string direction)
+        private bool ScreenBoundryCheck(string direction)
         {
             if (direction == "UP")
                 if (druid.Position.Y > 0) // If top of druid is below top of window, return true
@@ -294,10 +293,10 @@ namespace Game1
 
         private void DisplayTimeOutMessage()
         {
-            MessageBox(new IntPtr(0), "Sorry, you ran out of time.\nPress Enter to exit.", "Wah Wah", 0);
+            MessageBox(new IntPtr(0), "Sorry, you ran out of time.\nPress Enter to exit.", "Debug Message", 0);
             Exit();
         }
-
+        
         private void UpdateTimer(GameTime gameTime)
         {
             timer -= gameTime.ElapsedGameTime.TotalSeconds;
@@ -307,6 +306,22 @@ namespace Game1
         {
             spriteBatch.DrawString(scoreFont, "Score: " + score, new Vector2(SCORE_X_POSITION, SCORE_Y_POSITION), Color.Black);
             spriteBatch.DrawString(scoreFont, "Time: " + timer.ToString("000"), new Vector2(SCORE_X_POSITION, SCORE_Y_POSITION + 25), Color.Black);
+        }
+
+        float _timer = 0.0f;
+        float eventTimerTarget = 2.5f;
+
+        private void UpdatePenaltyLocation(GameTime gameTime)
+        {
+            _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (_timer >= eventTimerTarget)
+            {
+                _timer -= eventTimerTarget;
+
+                SpawnPenaltyObject();
+                penalty.Active = true;
+            }
         }
     }
 }
